@@ -9,7 +9,7 @@ To build the service:
 `./mvnw clean package`
 
 ### Run
-`java -jar target/TinyBank-0.0.1-SNAPSHOT.jar`
+`java -jar api/target/api-0.0.1-SNAPSHOT.jar`
 
 ## Build and Run with Docker
 ### Setup
@@ -23,13 +23,18 @@ To build the service inside a docker container:
 To run the service inside a docker container:
 `docker run -p 8080:8080 tinybank`
 
-## Swagger UI and OpenAPI
+## Endpoints
+### Swagger UI and OpenAPI
 To access Swagger UI: http://localhost:8080/swagger-ui/index.html
 
 To access OpenAPI3 docs: http://localhost:8080/v3/api-docs and http://localhost:8080/v3/api-docs.yaml
 
-## Health-Check and Prometheus
+### Health-Check and Prometheus
 To access health-checks: http://localhost:8080/actuator/health
 
 To access prometheus metrics: http://localhost:8080/actuator/prometheus
 
+## Future Improvements
+- Logging
+- Input sanity, validation and error checking
+- Proper response objects instead of String
