@@ -23,8 +23,13 @@ To build the service inside a docker container:
 To run the service inside a docker container:
 `docker run -p 8080:8080 tinybank`
 
-## Health-Check
+## Swagger UI and OpenAPI
+To access Swagger UI: http://localhost:8080/swagger-ui/index.html
+
+To access OpenAPI3 docs: http://localhost:8080/v3/api-docs and http://localhost:8080/v3/api-docs.yaml
+
+## Health-Check and Prometheus
 To access health-checks: http://localhost:8080/actuator/health
 
-## Prometheus
 To access prometheus metrics: http://localhost:8080/actuator/prometheus
+

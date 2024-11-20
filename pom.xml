@@ -62,6 +62,13 @@
 			<artifactId>micrometer-registry-prometheus</artifactId>
 			<version>1.13.6</version>
 		</dependency>
+
+		<!-- OpenAPI and SwaggerUI -->
+		<dependency>
+			<groupId>org.springdoc</groupId>
+			<artifactId>springdoc-openapi-starter-webmvc-ui</artifactId>
+			<version>2.5.0</version>
+		</dependency>
 	</dependencies>
 
 	<build>
