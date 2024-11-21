@@ -1,6 +1,6 @@
 FROM eclipse-temurin:21-jdk as build
-COPY . /usr/app
 WORKDIR /usr/app
+COPY . /usr/app
 RUN ./mvnw -f ./pom.xml clean package
 
 FROM eclipse-temurin:21-jre-alpine

@@ -1,4 +1,4 @@
-package com.andreferreira.tinybank.service.repository;
+package com.andreferreira.tinybank.api.service;
 
 import jakarta.validation.constraints.NotNull;
 

@@ -4,7 +4,6 @@ import com.andreferreira.tinybank.domain.User;
 import com.andreferreira.tinybank.domain.dao.UserDAO;
 import jakarta.validation.constraints.NotNull;
 
-import java.math.BigDecimal;
 import java.util.Collection;
 import java.util.Optional;
 import java.util.concurrent.ConcurrentHashMap;
@@ -25,11 +24,6 @@ public class UserInMemoryDAO implements UserDAO {
     @Override
     public Collection<User> findAll() {
         return users.values();
-    }
-
-    @Override
-    public BigDecimal count() {
-        return BigDecimal.valueOf(users.mappingCount());
     }
 
     @Override

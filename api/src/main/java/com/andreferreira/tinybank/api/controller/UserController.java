@@ -1,10 +1,11 @@
-package com.andreferreira.tinybank.service.controller;
+package com.andreferreira.tinybank.api.controller;
 
+import com.andreferreira.tinybank.api.request.UserBody;
+import com.andreferreira.tinybank.api.service.UserAlreadyExists;
+import com.andreferreira.tinybank.api.service.UserNotFound;
+import com.andreferreira.tinybank.api.service.UserService;
 import com.andreferreira.tinybank.domain.User;
-import com.andreferreira.tinybank.service.dto.UserDTO;
-import com.andreferreira.tinybank.service.repository.UserAlreadyExists;
-import com.andreferreira.tinybank.service.repository.UserNotFound;
-import com.andreferreira.tinybank.service.repository.UserRepository;
+import jakarta.validation.Valid;
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.Max;
 import jakarta.validation.constraints.Min;
@@ -20,64 +21,60 @@ import java.util.List;
 @RequestMapping("/api/v1/users")
 public class UserController {
 
-    private final UserRepository userRepository;
+    private final UserService userService;
 
     @Autowired
-    public UserController(UserRepository userRepository) {
-        this.userRepository = userRepository;
+    public UserController(UserService userService) {
+        this.userService = userService;
     }
 
     @GetMapping("")
     public List<User> getUsers(@RequestParam(required = false, defaultValue = "1") @Min(1) long page,
                                @RequestParam(required = false, defaultValue = "20") @Min(1) @Max(100) long count) {
-        return userRepository.getPage((page - 1) * count, count);
+        return userService.findAllPaged((page - 1) * count, count);
     }
 
     @GetMapping("/{email}")
     public User getUser(@PathVariable @Email String email) {
-        return userRepository.get(email);
+        return userService.get(email);
     }
 
     @PostMapping(path="",
             consumes = MediaType.APPLICATION_JSON_VALUE,
             produces = MediaType.APPLICATION_JSON_VALUE)
-    public User createUser(@RequestBody UserDTO userDTO) {
+    public User createUser(@RequestBody @Valid UserBody userBody) {
         try {
-            User newUser = userDTO.toUser();
-            userRepository.create(newUser);
+            User newUser = userBody.toUser();
+            userService.create(newUser);
             return newUser;
         } catch (UserAlreadyExists e) {
             throw new ResponseStatusException(HttpStatus.CONFLICT, e.getMessage());
         }
     }
 
-    @PutMapping("/activate/{email}")
+    @PutMapping("/{email}/activate")
     public String activateUser(@PathVariable @Email String email) {
         try {
-            User user = userRepository.get(email);
-            if (user.isActive()) {
+            User user = userService.get(email);
+            if (userService.activate(user)) {
+                return "User activated";
+            } else {
                 return "User is already active";
             }
-
-            user.activate();
-            userRepository.update(user);
-            return "User activated";
         } catch (UserNotFound e) {
             throw new ResponseStatusException(HttpStatus.NOT_FOUND, e.getMessage());
         }
     }
 
-    @PutMapping("/deactivate/{email}")
+    @PutMapping("/{email}/deactivate")
     public String deactivateUser(@PathVariable @Email String email) {
         try {
-            User user = userRepository.get(email);
-            if (!user.isActive()) {
+            User user = userService.get(email);
+            if (userService.deactivate(user)) {
+                return "User deactivated";
+            } else {
                 return "User is already inactive";
             }
-
-            user.deactivate();
-            userRepository.update(user);
-            return "User deactivated";
         } catch (UserNotFound e) {
             throw new ResponseStatusException(HttpStatus.NOT_FOUND, e.getMessage());
         }

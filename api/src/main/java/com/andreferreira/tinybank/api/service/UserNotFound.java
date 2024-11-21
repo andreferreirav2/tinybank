@@ -1,4 +1,4 @@
-package com.andreferreira.tinybank.service.repository;
+package com.andreferreira.tinybank.api.service;
 
 public class UserNotFound extends RuntimeException {
     public UserNotFound(String email) {

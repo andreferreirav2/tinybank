@@ -1,4 +1,4 @@
-package com.andreferreira.tinybank.service;
+package com.andreferreira.tinybank.api;
 
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;
